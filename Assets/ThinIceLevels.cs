@@ -44,7 +44,7 @@ public static class ThinIceLevels
                 }
                 else
                 {
-                    throw new Exception("Invalid tile type: " + tile);
+                    throw new Exception($"Invalid tile type: {tile} in level string\n{levelString}");
                 }
             }
             tileMap.Add(row);
@@ -129,7 +129,7 @@ Empty1,Wall1,Ice1,Wall4,Ice2,Wall4,Ice1,Wall1,Empty1
 Empty1,Wall1,Ice1,Wall1,Empty1,Wall1,Ice4,Wall1,Empty1,Wall1,Ice1,Wall1,Empty1
 Empty1,Wall1,Ice1,Wall1,Empty1,Wall1,Ice4,Wall1,Empty1,Wall1,Goal1,Wall1,Empty1
 Empty1,Wall3,Empty1,Wall6,Empty1,Wall3,Empty1
-"), new Vector2(1,1), new Vector2(2, 6));
+"), new Vector2(1, 1), new Vector2(2, 6));
 
     public static ThinIceGame.Level Level5 = new(
         LevelDecode(@"
@@ -291,6 +291,106 @@ Wall6,Empty12
             new Vector2Int(5, 9)
         });
 
+    public static ThinIceGame.Level Level14 = new(
+        LevelDecode(@"
+Wall6,Empty3,Wall4,Empty5
+Wall1,Ice4,Wall1,Empty3,Wall1,Ice2,Wall3,Empty3
+Wall1,Ice4,Wall3,Empty1,Wall1,Ice4,Wall1,Empty3
+Wall2,Ice5,Wall3,Ice4,Wall2,Empty2
+Empty1,Wall1,Ice4,ThickIce1,Ice2,Wall1,Ice3,ThickIce1,Ice1,Wall2,Empty1
+Wall2,Ice1,Wall2,Ice2,Wall1,Ice1,Wall2,Ice3,ThickIce1,Ice1,Wall1,Empty1
+Wall1,Ice2,Wall2,Ice3,ThickIce1,Ice6,Wall3
+Wall1,Ice3,Wall1,Ice2,ThickIce1,Ice9,Wall1
+Wall1,Ice3,Wall1,Ice1,Wall1,Ice1,Wall3,Ice1,Wall1,Ice4,Wall1
+Wall2,Ice2,Wall1,Ice2,ThickIce1,Ice2,Wall1,ThickIce1,Ice3,Wall3
+Wall2,Ice1,Wall6,Ice1,Wall1,Ice3,ThickIce1,Ice1,Wall1,Empty1
+Empty1,Wall1,Ice1,Wall4,Ice3,Wall1,Ice2,ThickIce1,Ice1,Wall2,Empty1
+Empty1,Wall1,Ice1,Lock1,Ice1,Goal1,Wall1,Ice3,Wall1,Ice3,Wall2,Empty2
+Empty1,Wall1,BlockHole1,Wall4,Ice3,Wall2,Ice2,Wall1,Empty3
+Empty1,Wall3,Empty2,Wall9,Empty3
+"), Vector2.zero, new Vector2(7, 11), new List<Vector2Int>()
+        {
+            new Vector2Int(16, 7)
+        }, new List<Vector2Int>()
+        {
+            new Vector2Int(7, 8)
+        });
+
+    public static ThinIceGame.Level Level15 = new(
+        LevelDecode(@"
+Wall19
+Wall1,Ice8,Wall1,ThickIce2,Wall1,ThickIce2,Ice3,Wall1
+Wall1,Ice1,Wall1,Ice7,ThickIce4,Ice1,Wall1,Ice2,Wall1
+Wall1,Ice3,Wall1,Ice5,ThickIce4,Ice1,Wall1,Lock1,Wall2
+Wall1,Ice9,ThickIce4,Ice1,Wall1,Ice1,Goal1,Wall1
+Wall1,Ice5,ThickIce3,Ice1,ThickIce1,Ice4,Wall4
+Wall1,Ice5,ThickIce1,Ice1,ThickIce3,Ice7,Wall1
+Wall1,Ice5,ThickIce1,Ice11,Wall1
+Wall2,ThickIce4,Ice6,ThickIce1,Ice5,Wall1
+Wall1,BlockHole1,ThickIce4,Ice12,Wall1
+Wall1,Ice2,Wall1,Ice10,Wall2,Ice2,Wall1
+Wall1,Ice13,Wall5
+Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall1,Ice9,Wall1
+Wall1,Ice3,Wall3,Ice11,Wall1
+Wall19
+"), Vector2.zero, new Vector2(5, 12), new List<Vector2Int>()
+        {
+            new Vector2Int(1, 9)
+        }, new List<Vector2Int>()
+        {
+            new Vector2Int(5, 8)
+        });
+
+    public static ThinIceGame.Level Level16 = new(
+        LevelDecode(@"
+Wall19
+Wall1,Ice2,ThickIce1,Ice3,Wall2,Ice4,Wall1,Ice4,Wall1
+Wall1,Ice1,Wall1,Ice11,ThickIce1,Ice3,Wall1
+Wall1,Ice3,Wall2,Ice4,Wall3,Ice2,Wall4
+Wall3,Ice1,Wall3,Ice3,Wall3,Ice5,Wall1
+Wall2,Ice2,Wall3,Ice1,Wall1,Ice1,Wall2,Ice5,Wall2
+Wall2,Ice5,ThickIce1,Ice1,ThickIce1,Ice7,Wall2
+Wall3,Ice3,Wall1,Ice1,Wall1,Ice1,Wall1,Ice7,Wall1
+Wall3,Ice2,ThickIce1,Ice1,ThickIce1,Ice1,ThickIce1,Ice8,Wall1
+Wall1,Ice5,Wall1,Ice1,Wall1,Ice1,Wall9
+Wall1,Ice2,ThickIce1,Ice3,ThickIce1,Ice1,ThickIce1,Ice2,Wall1,Ice4,ThickIce1,Wall1
+Wall1,Ice3,Wall1,Ice2,ThickIce1,Ice1,ThickIce1,Ice2,Wall1,Lock1,Wall1,Goal1,Wall1,ThickIce1,Wall1
+Wall1,Ice7,Wall1,Ice4,ThickIce1,Wall3,ThickIce1,Wall1
+Wall1,Ice2,Wall1,Ice4,Wall1,BlockHole1,Wall1,Ice2,ThickIce5,Wall1
+Wall19
+"), Vector2.zero, new Vector2(17, 4), new List<Vector2Int>()
+        {
+            new Vector2Int(17, 13)
+        }, new List<Vector2Int>()
+        {
+            new Vector2Int(14, 5)
+        });
+
+    public static ThinIceGame.Level Level17 = new(
+        LevelDecode(@"
+Wall19
+Wall1,Ice5,Wall2,BlockHole1,Wall1,Ice3,Wall1,Ice1,Wall1,Ice2,Wall1
+Wall1,Ice5,Wall1,Ice4,Wall1,Ice1,Wall1,ThickIce1,Ice3,Wall1
+Wall1,Ice5,Wall1,Ice2,Wall3,ThickIce1,Ice3,Wall1,Ice1,Wall1
+Wall1,Ice1,Wall3,Ice1,Wall1,Ice2,Wall1,Ice1,ThickIce1,Ice1,Wall1,Ice2,Wall1,Ice1,Wall1
+Wall1,Ice1,Wall1,Goal1,Wall1,Ice1,Wall1,Ice2,Wall2,Ice1,ThickIce1,Ice1,ThickIce1,Ice1,Wall1,Ice1,Wall1
+Wall1,ThickIce1,Ice4,Wall1,Ice2,Wall1,Ice1,ThickIce1,Ice3,Wall2,Ice1,Wall1
+Wall1,Lock1,Wall5,Ice2,Wall2,Ice1,ThickIce1,Ice1,Wall2,Ice2,Wall1
+Wall1,Ice1,Wall1,Ice6,Wall1,Ice2,ThickIce1,Wall2,Ice1,ThickIce1,Ice1,Wall1
+Wall1,Ice1,Wall1,Ice6,Wall1,Ice3,Wall2,Ice3,Wall1
+Wall1,Ice1,Wall6,Ice1,Wall8,Ice1,Wall1
+Wall1,Ice1,Teleporter1,Wall1,Ice12,Wall1,Ice1,Wall1
+Wall1,Ice13,Wall3,Ice1,Wall1
+Wall1,Ice9,Teleporter1,Ice7,Wall1
+Wall19
+"), Vector2.zero, new Vector2(15, 11), new List<Vector2Int>()
+        {
+            new Vector2Int(14, 1)
+        }, new List<Vector2Int>()
+        {
+            new Vector2Int(5, 11)
+        });
+
     public static ThinIceGame.Level[] Levels = new ThinIceGame.Level[]
     {
             Level1,
@@ -305,6 +405,10 @@ Wall6,Empty12
             Level10,
             Level11,
             Level12,
-            Level13
+            Level13,
+            Level14,
+            Level15,
+            Level16,
+            Level17
     };
 }
