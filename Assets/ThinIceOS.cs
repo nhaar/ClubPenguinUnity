@@ -60,6 +60,8 @@ public class ThinIceOS : MonoBehaviour
 
     public ThinIceGameData GameData { get; set; }
 
+    public ThinIcePuffle Puffle { get; set; }
+
     private enum State
     {
         MainMenu,
@@ -176,25 +178,30 @@ public class ThinIceOS : MonoBehaviour
     {
         GameData.ChangeLevel(levelNumber);
         DrawLevel();
-        SpawnPuffle();
+        if (!Puffle)
+        {
+            SpawnPuffle();
+        }
+        Puffle.TeleportTo(GameData.AbsoluteSpawnLocation);
+    }
+
+    public void GoToNextLevel()
+    {
+        StartLevel(GameData.CurrentLevelNumber + 1);
     }
 
     void SpawnPuffle()
     {
         GameObject puffleObject = new GameObject("Puffle");
-        puffleObject.AddComponent<ThinIcePuffle>();
+        Puffle = puffleObject.AddComponent<ThinIcePuffle>();
         puffleObject.GetComponent<ThinIcePuffle>().PuffleImage = PuffleImage;
         puffleObject.GetComponent<ThinIcePuffle>().BaseImage = BaseImage;
         puffleObject.transform.SetParent(gameObject.transform);
-        Vector2 spawnLocation = GameData.CurrentLevel.PuffleSpawnLocation + GameData.CurrentLevel.Origin;
-        Vector2 spawnPosition = TileObjects[(int)spawnLocation.x, (int)spawnLocation.y].GetComponent<RectTransform>().anchoredPosition;
         RectTransform rectTransform = puffleObject.GetComponent<RectTransform>();
         if (rectTransform == null)
         {
-            rectTransform = puffleObject.AddComponent<RectTransform>();
+            puffleObject.AddComponent<RectTransform>();
         }
-        rectTransform.anchoredPosition = spawnPosition;
-        puffleObject.GetComponent<ThinIcePuffle>().Position = spawnLocation;
     }
 
     void ChangeState(State state)
@@ -240,5 +247,10 @@ public class ThinIceOS : MonoBehaviour
                 StartLevel(1);
                 break;
         }
+    }
+
+    public Vector2 GetTilePosition(Vector2 position)
+    {
+        return TileObjects[(int)position.x, (int)position.y].GetComponent<RectTransform>().anchoredPosition;
     }
 }

@@ -67,13 +67,9 @@ public static class ThinIceLevels
     {
         List<string[]> records = new List<string[]>();
 
-        // Split the CSV string into lines
         string[] lines = csv.Split('\n');
 
-        // If the CSV has a header, skip the first line
-        int startIndex = lines[0].Contains(",") ? 1 : 0;
-
-        for (int i = startIndex; i < lines.Length; i++)
+        for (int i = 0; i < lines.Length; i++)
         {
             // Split each line into fields
             string[] fields = lines[i].Split(',');
@@ -87,14 +83,39 @@ public static class ThinIceLevels
         return records;
     }
 
-    public static ThinIceGame.Level Level1 = new ThinIceGame.Level(
+    public static ThinIceGame.Level Level1 = new(
         LevelDecode(@"
 Wall15
 Wall1,Goal1,Ice12,Wall1
 Wall15"), new Vector2(1, 9), new Vector2(13, 1));
 
+    public static ThinIceGame.Level Level2 = new(
+        LevelDecode(@"
+Empty12,Wall3
+Empty12,Wall1,Goal1,Wall1
+Empty12,Wall1,Ice1,Wall1
+Wall7,Empty1,Wall5,Ice1,Wall1
+Wall1,Ice5,Wall1,Empty1,Wall1,Ice5,Wall1
+Wall5,Ice1,Wall3,Ice1,Wall5
+Empty4,Wall1,Ice5,Wall1,Empty4
+Empty4,Wall7,Empty4
+"), new Vector2(1, 6), new Vector2(1, 4));
+
+    public static ThinIceGame.Level Level3 = new(
+        LevelDecode(@"
+Wall3,Empty8,Wall3
+Wall1,Goal1,Wall1,Empty8,Wall1,Ice1,Wall1
+Wall1,Ice1,Wall5,Empty4,Wall1,Ice1,Wall1
+Wall1,Ice1,Wall2,Ice2,Wall6,Ice1,Wall1
+Wall1,Ice12,Wall1
+Wall1,Ice2,Wall4,Ice2,Wall2,Ice2,Wall1
+Wall4,Empty2,Wall8
+"), new Vector2(2, 6), new Vector2(12, 1));
+
     public static ThinIceGame.Level[] Levels = new ThinIceGame.Level[]
     {
-            Level1
+            Level1,
+            Level2,
+            Level3
     };
 }

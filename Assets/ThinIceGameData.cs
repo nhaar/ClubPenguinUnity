@@ -23,19 +23,19 @@ public class ThinIceGameData
         PointsOnLevelStart = 0;
     }
 
-    public void GetLevelData(int levelNumber, bool updateTotal)
+    public void GetLevelData(bool updateTotal)
     {
-        ThinIceGame.Level level = ThinIceLevels.Levels[CurrentLevelNumber - 1];
         if (updateTotal)
         {
-            TotalTiles = level.GetTotalTileCount();
+            TotalTiles = CurrentLevel.GetTotalTileCount();
         }
     }
 
     public void ChangeLevel(int levelNumber)
     {
         CurrentLevelNumber = levelNumber;
-        GetLevelData(levelNumber, true);
+        CurrentLevel = ThinIceLevels.Levels[CurrentLevelNumber - 1];
+        GetLevelData(true);
         ClearedTiles = 0;
         PointsOnLevelStart += PointsThisLevel;
         PointsThisLevel = 0;
@@ -43,8 +43,10 @@ public class ThinIceGameData
 
     public void Reset()
     {
-        GetLevelData(CurrentLevelNumber, false);
+        GetLevelData(false);
         ClearedTiles = 0;
         PointsThisLevel = 0;
     }
+
+    public Vector2 AbsoluteSpawnLocation => CurrentLevel.PuffleSpawnLocation + CurrentLevel.Origin;
 }

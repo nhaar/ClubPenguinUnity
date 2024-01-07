@@ -8,6 +8,7 @@ public class ThinIcePuffle : MonoBehaviour
 
     public Sprite BaseImage;
 
+    // absolute scale
     public Vector2 Position { get; set; }
 
     public bool IsMoving { get; set; }
@@ -48,7 +49,6 @@ public class ThinIcePuffle : MonoBehaviour
         IsMoving = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (IsMoving)
@@ -87,14 +87,18 @@ public class ThinIcePuffle : MonoBehaviour
                         targetPosition.x += 1;
                         break;
                     case Direction.Up:
-                        targetPosition.y += 1;
-                        break;
-                    case Direction.Down:
                         targetPosition.y -= 1;
                         break;
+                    case Direction.Down:
+                        targetPosition.y += 1;
+                        break;
                 }
+                Debug.Log(Position);
+                Debug.Log(targetPosition);
+
                 if (CanMove(targetPosition))
                 {
+                    Debug.Log("CAN MOVE YOU DOOFU");
                     StartCoroutine(Move(targetPosition));
                 }
             }
@@ -106,7 +110,6 @@ public class ThinIcePuffle : MonoBehaviour
         Vector2 targetTilePosition = targetPosition;
         ThinIceGame.Level.TileType targetTile = _os.TileObjects[(int)targetTilePosition.x, (int)targetTilePosition.y].TileType;
 
-        Debug.Log(targetTile);
         if (_impassableTiles.Contains(targetTile))
         {
             return false;
@@ -136,7 +139,15 @@ public class ThinIcePuffle : MonoBehaviour
             yield return null;
         }
         _os.TileObjects[(int)Position.x, (int)Position.y].OnPuffleExit();
+        _os.TileObjects[(int)targetPosition.x, (int)targetPosition.y].OnPuffleEnter();
         Position = targetPosition;
         IsMoving = false;
+    }
+
+    public void TeleportTo(Vector2 targetPosition)
+    {
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = transform.parent.gameObject.GetComponent<ThinIceOS>().GetTilePosition(targetPosition);
+        Position = targetPosition;
     }
 }

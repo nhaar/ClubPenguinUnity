@@ -9,18 +9,6 @@ public class ThinIceTile : MonoBehaviour
 {
     public ThinIceGame.Level.TileType TileType { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void ChangeTile(ThinIceGame.Level.TileType tileType)
     {
         ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
@@ -55,6 +43,15 @@ public class ThinIceTile : MonoBehaviour
         else if (TileType == ThinIceGame.Level.TileType.Ice)
         {
             ChangeTile(ThinIceGame.Level.TileType.Water);
+        }
+    }
+
+    public void OnPuffleEnter()
+    {
+        if (TileType == ThinIceGame.Level.TileType.Goal)
+        {
+            ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
+            thinIceOS.GoToNextLevel();
         }
     }
 }
