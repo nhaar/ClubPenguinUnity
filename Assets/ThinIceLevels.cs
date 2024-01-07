@@ -56,7 +56,14 @@ public static class ThinIceLevels
         {
             for (int j = 0; j < tileMap[i].Count; j++)
             {
-                tiles[j, i] = tileMap[i][j];
+                try
+                {
+                    tiles[j, i] = tileMap[i][j];
+                }
+                catch
+                {
+                    throw new Exception($"Incorrect tile map (error in {j},{i}) :\n" + levelString);
+                }
             }
         }
 
@@ -215,6 +222,75 @@ Wall19
             Vector2Int.one
         });
 
+    public static ThinIceGame.Level Level11 = new(
+        LevelDecode(@"
+Empty13,Wall3,Empty2
+Empty13,Wall1,Goal1,Wall1,Empty2
+Empty11,Wall3,Ice1,Wall3
+Empty1,Wall11,Ice2,ThickIce1,Ice2,Wall1
+Empty1,Wall1,Ice8,Wall2,ThickIce1,Wall1,Ice1,Wall1,ThickIce1,Wall1
+Empty1,Wall1,Ice3,Wall4,Ice2,Wall1,ThickIce1,Ice1,ThickIce1,Ice1,ThickIce1,Wall1
+Empty1,Wall1,Ice4,ThickIce1,Ice1,Wall1,Ice2,Wall3,Ice1,Wall3
+Wall3,ThickIce1,Ice1,Wall1,Ice2,Wall1,Ice2,ThickIce1,Ice1,Wall1,Ice1,Wall3
+Wall1,Ice2,ThickIce1,Wall3,Ice1,Wall3,Ice1,Wall2,Lock1,Wall3
+Wall1,Ice1,Wall1,Ice3,Wall1,ThickIce1,Ice4,Wall1,Ice1,ThickIce3,Wall1
+Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall1,ThickIce1,Wall1,Ice3,Wall1,Ice1,Wall2,ThickIce1,Wall1
+Wall1,Ice2,ThickIce1,Wall1,Ice1,Wall1,Ice1,Wall1,Ice3,Wall1,Ice2,Wall1,ThickIce1,Wall1
+Wall3,Ice2,ThickIce2,Ice1,Wall1,Ice3,Wall4,ThickIce1,Wall1
+Empty2,Wall1,Ice2,Wall1,Ice2,Wall1,Ice2,ThickIce6,Wall1
+Empty2,Wall16
+"), new Vector2(1, 0), new Vector2(14, 11), new List<Vector2Int>()
+        {
+            new Vector2Int(6, 9)
+        });
+
+    public static ThinIceGame.Level Level12 = new(
+        LevelDecode(@"
+Empty6,Wall4,Empty1,Wall6,Empty2
+Empty6,Wall1,Ice2,Wall3,Ice2,Wall1,Ice1,Wall1,Empty2
+Empty6,Wall1,Ice1,ThickIce1,Ice3,ThickIce1,Ice1,Wall1,Ice1,Wall1,Empty2
+Empty5,Wall3,Ice1,Wall3,Ice1,Wall2,Ice1,Wall2,Empty1
+Wall6,Ice2,ThickIce1,Wall3,Ice3,ThickIce1,Ice1,Wall1,Empty1
+Wall1,Ice2,Wall3,Ice1,Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall2,Ice1,Wall2,Empty1
+Wall1,Ice1,ThickIce1,Ice3,ThickIce1,Ice1,ThickIce1,Ice1,ThickIce1,Wall1,ThickIce1,Ice2,ThickIce1,Wall1,Empty2
+Wall1,Ice1,ThickIce1,Ice4,Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall2,Ice1,Wall1,Empty2
+Wall1,Ice1,ThickIce2,Wall1,ThickIce2,Ice1,ThickIce1,Ice1,ThickIce1,Ice1,ThickIce1,Ice1,Wall1,Ice1,Wall3
+Wall1,Ice1,ThickIce2,Wall1,Ice2,Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall2,Ice3,Wall1
+Wall1,Ice1,ThickIce2,Wall2,Ice2,ThickIce1,Ice1,ThickIce1,Ice1,ThickIce1,Ice1,Wall3,Lock1,Wall1
+Wall1,Ice1,ThickIce2,Wall2,Ice2,Wall2,Ice1,Wall1,Ice2,Wall1,Goal1,Ice2,Wall1
+Wall1,Ice1,ThickIce2,Ice1,Wall14
+Wall1,Ice4,Wall1,Empty13
+Wall6,Empty13
+"), Vector2.zero, new Vector2(15, 1), new List<Vector2Int>()
+        {
+            new Vector2Int(4, 13)
+        });
+
+    public static ThinIceGame.Level Level13 = new(
+        LevelDecode(@"
+Empty7,Wall4,Empty1,Wall3,Empty3
+Empty2,Wall6,Ice2,Wall3,Ice1,Wall1,Empty3
+Empty2,Wall1,Ice2,Wall1,Ice3,ThickIce1,Ice2,ThickIce2,Wall1,Empty3
+Empty2,Wall1,Ice7,Wall2,Ice2,Wall1,Empty3
+Empty2,Wall1,Ice1,Wall3,Ice7,Wall2,Empty2
+Empty2,Wall1,Ice1,Wall1,BlockHole1,Wall5,ThickIce3,Ice1,Wall1,Empty2
+Empty2,Wall1,ThickIce1,Ice7,ThickIce1,Ice2,Wall2,Empty2
+Empty2,Wall1,Ice1,Wall1,Ice1,Wall2,Ice3,ThickIce3,Wall1,Empty3
+Wall3,Ice1,Wall1,Ice1,Wall1,Ice6,ThickIce1,Wall1,Empty3
+Wall1,Ice1,Wall1,Ice1,Wall1,Ice1,Wall1,Ice4,ThickIce3,Wall1,Empty3
+Wall1,ThickIce1,Wall1,Ice1,Wall1,Ice1,Wall5,ThickIce1,Ice1,Wall5
+Wall1,ThickIce1,Wall1,Ice1,ThickIce1,Ice1,Wall1,Goal1,Ice1,Lock1,Ice1,ThickIce1,Wall2,Ice3,Wall1
+Wall1,ThickIce1,Wall2,ThickIce1,Wall6,Ice3,ThickIce1,Ice2,Wall1
+Wall1,ThickIce4,Wall1,Empty4,Wall8
+Wall6,Empty12
+"), Vector2.zero, new Vector2(15, 11), new List<Vector2Int>()
+        {
+            new Vector2Int(1, 9)
+        }, new List<Vector2Int>()
+        {
+            new Vector2Int(5, 9)
+        });
+
     public static ThinIceGame.Level[] Levels = new ThinIceGame.Level[]
     {
             Level1,
@@ -226,6 +302,9 @@ Wall19
             Level7,
             Level8,
             Level9,
-            Level10
+            Level10,
+            Level11,
+            Level12,
+            Level13
     };
 }

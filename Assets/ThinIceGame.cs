@@ -16,8 +16,11 @@ public class ThinIceGame : MonoBehaviour
 
         public TileType[,] Tiles { get; set; }
 
-        // relative to origin
+        // relative to absolute origin
         public List<Vector2Int> KeyPositions { get; set; }
+
+        // relative to absolute origin
+        public List<Vector2Int> BlockPositions { get; set; }
 
         public static int MaxWidth = 19;
 
@@ -48,7 +51,7 @@ public class ThinIceGame : MonoBehaviour
             TileType.BlockHole
         };
 
-        public Level(TileType[,] tiles, Vector2 origin, Vector2 puffleSpawnLocation, List<Vector2Int> keyPositions = null)
+        public Level(TileType[,] tiles, Vector2 origin, Vector2 puffleSpawnLocation, List<Vector2Int> keyPositions = null, List<Vector2Int> blockPositions = null)
         {
             Tiles = tiles;
             Width = tiles.GetLength(0);
@@ -56,6 +59,7 @@ public class ThinIceGame : MonoBehaviour
             Origin = origin;
             PuffleSpawnLocation = puffleSpawnLocation;
             KeyPositions = keyPositions;
+            BlockPositions = blockPositions;
         }
 
         public int GetTotalTileCount()

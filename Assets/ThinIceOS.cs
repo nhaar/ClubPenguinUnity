@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -58,6 +59,8 @@ public class ThinIceOS : MonoBehaviour
 
     public Sprite Key;
 
+    public Sprite Block;
+
     public ThinIceTile[,] TileObjects { get; set; }
 
     public ThinIceGameData GameData { get; set; }
@@ -75,14 +78,6 @@ public class ThinIceOS : MonoBehaviour
     {
         ChangeState(State.MainMenu);
     }
-
-    void Update()
-    {
-        
-    }
-
-
-
     void AddButton(Sprite button, Sprite buttonHover, string name, Vector2 position, string text, Font font, int fontSize, Action callback)
     {
         GameObject newObject = new GameObject(name);
@@ -173,6 +168,14 @@ public class ThinIceOS : MonoBehaviour
         {
             TileObjects[keyPosition.x, keyPosition.y].AddKey();
         }
+
+        foreach (Vector2Int blockPosition in level.BlockPositions ?? new List<Vector2Int>() { })
+        {
+            GameObject blockObject = AddImage(Block, "Block", GetTilePosition(blockPosition));
+            TileObjects[blockPosition.x, blockPosition.y].Block = blockObject;
+            ThinIceBlock block = blockObject.AddComponent<ThinIceBlock>();
+            block.Position = blockPosition;
+        }
     }
 
     void StartLevel(int levelNumber)
@@ -252,6 +255,11 @@ public class ThinIceOS : MonoBehaviour
 
     public Vector2 GetTilePosition(Vector2 position)
     {
-        return TileObjects[(int)position.x, (int)position.y].GetComponent<RectTransform>().anchoredPosition;
+        return GetTile(position).GetComponent<RectTransform>().anchoredPosition;
+    }
+
+    public GameObject GetTile(Vector2 position)
+    {
+        return TileObjects[(int)position.x, (int)position.y].gameObject;
     }
 }

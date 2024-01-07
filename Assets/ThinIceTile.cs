@@ -13,6 +13,8 @@ public class ThinIceTile : MonoBehaviour
 
     public ThinIceImage Key { get; set; }
 
+    public GameObject Block { get; set; }
+
     public void ChangeTile(ThinIceGame.Level.TileType tileType)
     {
         ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
@@ -51,7 +53,7 @@ public class ThinIceTile : MonoBehaviour
         }
     }
 
-    public void OnPuffleEnter()
+    public void OnPuffleEnter(ThinIcePuffle.Direction direction)
     {
         ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
         if (TileType == ThinIceGame.Level.TileType.Goal)
@@ -63,6 +65,11 @@ public class ThinIceTile : MonoBehaviour
             // if we're entering the lock we need to have the key
             ChangeTile(ThinIceGame.Level.TileType.Ice);
             thinIceOS.Puffle.UseKey();
+        }
+        if (Block != null)
+        {
+            // same as above, we know the block can move already
+            Block.GetComponent<ThinIceBlock>().Move(direction);
         }
         if (HasKey)
         {
@@ -81,8 +88,6 @@ public class ThinIceTile : MonoBehaviour
     public void RemoveKey()
     {
         HasKey = false;
-        Debug.Log(Key);
-        Debug.Log(Key.gameObject);
         Destroy(Key.gameObject);
         Key = null;
     }

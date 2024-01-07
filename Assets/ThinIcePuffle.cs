@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ThinIcePuffle : MonoBehaviour
@@ -79,46 +80,32 @@ public class ThinIcePuffle : MonoBehaviour
             }
             if (direction != Direction.None)
             {
-                Vector2 targetPosition = Position;
-                switch (direction)
+                Vector2 targetPosition = GetDestination(Position, direction);
+                if (CanMove(targetPosition, direction))
                 {
-                    case Direction.Left:
-                        targetPosition.x -= 1;
-                        break;
-                    case Direction.Right:
-                        targetPosition.x += 1;
-                        break;
-                    case Direction.Up:
-                        targetPosition.y -= 1;
-                        break;
-                    case Direction.Down:
-                        targetPosition.y += 1;
-                        break;
-                }
-                Debug.Log(Position);
-                Debug.Log(targetPosition);
-
-                if (CanMove(targetPosition))
-                {
-                    Debug.Log("CAN MOVE YOU DOOFU");
-                    StartCoroutine(Move(targetPosition));
+                    StartCoroutine(Move(targetPosition, direction));
                 }
             }
         }
     }
 
-    private bool CanMove(Vector2 targetPosition)
+    private bool CanMove(Vector2 targetPosition, Direction direction)
     {        
         Vector2 targetTilePosition = targetPosition;
-        ThinIceGame.Level.TileType targetTile = _os.TileObjects[(int)targetTilePosition.x, (int)targetTilePosition.y].TileType;
+        ThinIceTile targetTile = _os.TileObjects[(int)targetTilePosition.x, (int)targetTilePosition.y];
+        ThinIceGame.Level.TileType tileType = targetTile.TileType;
 
-        if (_impassableTiles.Contains(targetTile))
+        if (_impassableTiles.Contains(tileType))
         {
             return false;
         }
-        else if (targetTile == ThinIceGame.Level.TileType.Lock)
+        else if (tileType == ThinIceGame.Level.TileType.Lock)
         {
             return HasKey;
+        }
+        else if (targetTile.Block != null)
+        {
+            return targetTile.Block.GetComponent<ThinIceBlock>().CanPush(direction);
         }
         else
         {
@@ -126,7 +113,7 @@ public class ThinIcePuffle : MonoBehaviour
         }
     }
 
-    private IEnumerator Move(Vector2 targetPosition)
+    private IEnumerator Move(Vector2 targetPosition, Direction direction)
     {
         IsMoving = true;
         Vector2 targetTilePosition = _os.TileObjects[(int)targetPosition.x, (int)targetPosition.y].GetComponent<RectTransform>().anchoredPosition;
@@ -141,7 +128,7 @@ public class ThinIcePuffle : MonoBehaviour
             yield return null;
         }
         _os.TileObjects[(int)Position.x, (int)Position.y].OnPuffleExit();
-        _os.TileObjects[(int)targetPosition.x, (int)targetPosition.y].OnPuffleEnter();
+        _os.TileObjects[(int)targetPosition.x, (int)targetPosition.y].OnPuffleEnter(direction);
         Position = targetPosition;
         IsMoving = false;
     }
@@ -161,5 +148,26 @@ public class ThinIcePuffle : MonoBehaviour
     public void UseKey()
     {
         HasKey = false;
+    }
+
+    public static Vector2 GetDestination(Vector2 position, Direction direction)
+    {
+        Vector2 destination = position;
+        switch (direction)
+        {
+            case Direction.Left:
+                destination.x -= 1;
+                break;
+            case Direction.Right:
+                destination.x += 1;
+                break;
+            case Direction.Up:
+                destination.y -= 1;
+                break;
+            case Direction.Down:
+                destination.y += 1;
+                break;
+        }
+        return destination;
     }
 }
