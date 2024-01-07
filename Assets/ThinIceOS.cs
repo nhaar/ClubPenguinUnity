@@ -67,6 +67,8 @@ public class ThinIceOS : MonoBehaviour
 
     public ThinIcePuffle Puffle { get; set; }
 
+    public List<GameObject> Blocks { get; set; }
+
     private enum State
     {
         MainMenu,
@@ -76,6 +78,7 @@ public class ThinIceOS : MonoBehaviour
 
     void Start()
     {
+        Blocks = new List<GameObject>();
         ChangeState(State.MainMenu);
     }
     void AddButton(Sprite button, Sprite buttonHover, string name, Vector2 position, string text, Font font, int fontSize, Action callback)
@@ -143,8 +146,18 @@ public class ThinIceOS : MonoBehaviour
         }
     }
 
+    void ClearBlocks()
+    {
+        foreach (GameObject blockObject in Blocks)
+        {
+            Destroy(blockObject);
+        }
+        Blocks.Clear();
+    }
+
     void DrawLevel()
     {
+        ClearBlocks();
         ThinIceGame.Level level = GameData.CurrentLevel;
         for (int j = 0; j < ThinIceGame.Level.MaxHeight; j++)
         {
@@ -175,6 +188,7 @@ public class ThinIceOS : MonoBehaviour
             TileObjects[blockPosition.x, blockPosition.y].Block = blockObject;
             ThinIceBlock block = blockObject.AddComponent<ThinIceBlock>();
             block.Position = blockPosition;
+            Blocks.Add(blockObject);
         }
     }
 
