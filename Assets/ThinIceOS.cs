@@ -129,6 +129,7 @@ public class ThinIceOS : MonoBehaviour
         GameObject tile = AddImage(EmptyTile, "Tile1", origin);
         tile.AddComponent<ThinIceTile>();
         tile.GetComponent<ThinIceTile>().TileType = ThinIceGame.Level.TileType.Empty;
+        tile.GetComponent<ThinIceTile>().Position = new Vector2(0, 0);
         TileObjects[0, 0] = tile.GetComponent<ThinIceTile>();
         Vector2 tileSize = tile.GetComponent<RectTransform>().sizeDelta;
         for (int i = 0; i < ThinIceGame.Level.MaxWidth; i++)
@@ -140,6 +141,7 @@ public class ThinIceOS : MonoBehaviour
                 GameObject newTile = Instantiate(tile);
                 newTile.name = "Tile" + (i + 1) + "-" + (j + 1);
                 newTile.transform.SetParent(gameObject.transform);
+                newTile.GetComponent<ThinIceTile>().Position = new Vector2(i, j);
                 newTile.GetComponent<RectTransform>().anchoredPosition = origin + new Vector2(tileSize.x * i, -tileSize.y * j) / 2 ;
                 TileObjects[i, j] = newTile.GetComponent<ThinIceTile>();
             }
@@ -159,6 +161,8 @@ public class ThinIceOS : MonoBehaviour
     {
         ClearBlocks();
         ThinIceGame.Level level = GameData.CurrentLevel;
+        int teleporterNumber = 0;
+        ThinIceTile lastTeleporter = null;
         for (int j = 0; j < ThinIceGame.Level.MaxHeight; j++)
         {
             for (int i = 0; i < ThinIceGame.Level.MaxWidth; i++)
@@ -175,6 +179,24 @@ public class ThinIceOS : MonoBehaviour
                 }
 
                 TileObjects[i, j].ChangeTile(tileType);
+                ThinIceTile currentTile = TileObjects[i, j];
+
+                // current system doesn't allow to specify which teleporter
+                // links where, mostly only works for 1 teleporter pair
+                if (tileType == ThinIceGame.Level.TileType.Teleporter)
+                {
+                    if (teleporterNumber % 2 == 0)
+                    {
+                        lastTeleporter = currentTile;
+                    }
+                    else
+                    {
+                        currentTile.LinkedTeleporter = lastTeleporter;
+                        lastTeleporter.LinkedTeleporter = currentTile;
+                        lastTeleporter = null;
+                    }
+                    teleporterNumber++;
+                }
             }
         }
         foreach (Vector2Int keyPosition in level.KeyPositions ?? new List<Vector2Int>() { })
@@ -201,6 +223,7 @@ public class ThinIceOS : MonoBehaviour
             SpawnPuffle();
         }
         Puffle.TeleportTo(GameData.AbsoluteSpawnLocation);
+        Puffle.HasKey = false;
     }
 
     public void GoToNextLevel()

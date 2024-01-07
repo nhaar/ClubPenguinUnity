@@ -14,11 +14,19 @@ public class ThinIceTile : MonoBehaviour
     public ThinIceImage Key { get; set; }
 
     public GameObject Block { get; set; }
+    
+    public ThinIceTile LinkedTeleporter { get; set; }
+
+    public bool IsPlaidTeleporter { get; set; }
+
+    public Vector2 Position { get; set; }
 
     public void ChangeTile(ThinIceGame.Level.TileType tileType)
     {
         ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
         HasKey = false;
+        LinkedTeleporter = null;
+        IsPlaidTeleporter = false;
 
         Sprite tileSprite = tileType switch
         {
@@ -66,6 +74,12 @@ public class ThinIceTile : MonoBehaviour
             ChangeTile(ThinIceGame.Level.TileType.Ice);
             thinIceOS.Puffle.UseKey();
         }
+        else if (!IsPlaidTeleporter && TileType == ThinIceGame.Level.TileType.Teleporter)
+        {
+            thinIceOS.Puffle.TeleportTo(LinkedTeleporter.Position);
+            MakePlaidTeleporter();
+            LinkedTeleporter.MakePlaidTeleporter();
+        }
         if (Block != null)
         {
             // same as above, we know the block can move already
@@ -90,5 +104,12 @@ public class ThinIceTile : MonoBehaviour
         HasKey = false;
         Destroy(Key.gameObject);
         Key = null;
+    }
+
+    void MakePlaidTeleporter()
+    {
+        ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
+        IsPlaidTeleporter = true;
+        GetComponent<ThinIceImage>().ChangeImage(thinIceOS.PlaidTeleporterTile);
     }
 }

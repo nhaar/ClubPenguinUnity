@@ -128,8 +128,8 @@ public class ThinIcePuffle : MonoBehaviour
             yield return null;
         }
         _os.TileObjects[(int)Position.x, (int)Position.y].OnPuffleExit();
-        _os.TileObjects[(int)targetPosition.x, (int)targetPosition.y].OnPuffleEnter(direction);
         Position = targetPosition;
+        _os.TileObjects[(int)targetPosition.x, (int)targetPosition.y].OnPuffleEnter(direction);
         IsMoving = false;
     }
 
