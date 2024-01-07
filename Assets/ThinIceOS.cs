@@ -56,6 +56,8 @@ public class ThinIceOS : MonoBehaviour
 
     public Sprite BlockHoleTile;
 
+    public Sprite Key;
+
     public ThinIceTile[,] TileObjects { get; set; }
 
     public ThinIceGameData GameData { get; set; }
@@ -79,17 +81,7 @@ public class ThinIceOS : MonoBehaviour
         
     }
 
-    GameObject AddImage(Sprite image, string name, Vector2 position)
-    {
-        GameObject newObject = new GameObject(name);
-        newObject.AddComponent<RectTransform>();
-        newObject.AddComponent<ThinIceImage>();
-        newObject.GetComponent<ThinIceImage>().SourceImage = image;
-        newObject.GetComponent<ThinIceImage>().BaseImage = BaseImage;
-        newObject.transform.SetParent(gameObject.transform);
-        newObject.GetComponent<RectTransform>().anchoredPosition = position;
-        return newObject;
-    }
+
 
     void AddButton(Sprite button, Sprite buttonHover, string name, Vector2 position, string text, Font font, int fontSize, Action callback)
     {
@@ -105,6 +97,11 @@ public class ThinIceOS : MonoBehaviour
         newObject.transform.SetParent(gameObject.transform);
         newObject.GetComponent<RectTransform>().anchoredPosition = position;
         newObject.GetComponent<ThinIceGameButton>().AddClickFunction(callback);
+    }
+
+    GameObject AddImage(Sprite image, string name, Vector2 position)
+    {
+        return ThinIceImage.AddImage(image, name, position, gameObject, BaseImage);
     }
 
     void AddLogo()
@@ -171,6 +168,10 @@ public class ThinIceOS : MonoBehaviour
 
                 TileObjects[i, j].ChangeTile(tileType);
             }
+        }
+        foreach (Vector2Int keyPosition in level.KeyPositions ?? new List<Vector2Int>() { })
+        {
+            TileObjects[keyPosition.x, keyPosition.y].AddKey();
         }
     }
 

@@ -21,6 +21,8 @@ public class ThinIcePuffle : MonoBehaviour
         ThinIceGame.Level.TileType.Water
     };
 
+    // in the future for new levels: could have a number of keys as opposed to this
+    // not necessary in vanilla
     public bool HasKey { get; set; }
 
     private Vector2 _tileSize;
@@ -149,5 +151,15 @@ public class ThinIcePuffle : MonoBehaviour
         RectTransform rectTransform = GetComponent<RectTransform>();
         rectTransform.anchoredPosition = transform.parent.gameObject.GetComponent<ThinIceOS>().GetTilePosition(targetPosition);
         Position = targetPosition;
+    }
+
+    public void GetKey()
+    {
+        HasKey = true;
+    }
+
+    public void UseKey()
+    {
+        HasKey = false;
     }
 }

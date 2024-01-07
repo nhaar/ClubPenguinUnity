@@ -9,9 +9,14 @@ public class ThinIceTile : MonoBehaviour
 {
     public ThinIceGame.Level.TileType TileType { get; set; }
 
+    public bool HasKey { get; set; }
+
+    public ThinIceImage Key { get; set; }
+
     public void ChangeTile(ThinIceGame.Level.TileType tileType)
     {
         ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
+        HasKey = false;
 
         Sprite tileSprite = tileType switch
         {
@@ -48,10 +53,37 @@ public class ThinIceTile : MonoBehaviour
 
     public void OnPuffleEnter()
     {
+        ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
         if (TileType == ThinIceGame.Level.TileType.Goal)
         {
-            ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
             thinIceOS.GoToNextLevel();
         }
+        else if (TileType == ThinIceGame.Level.TileType.Lock)
+        {
+            // if we're entering the lock we need to have the key
+            ChangeTile(ThinIceGame.Level.TileType.Ice);
+            thinIceOS.Puffle.UseKey();
+        }
+        if (HasKey)
+        {
+            RemoveKey();
+            thinIceOS.Puffle.GetKey();
+        }
+    }
+
+    public void AddKey()
+    {
+        HasKey = true;
+        ThinIceOS thinIceOS = transform.parent.GetComponent<ThinIceOS>();
+        Key = ThinIceImage.AddImage(thinIceOS.Key, "Key", Vector2.zero, gameObject, thinIceOS.BaseImage).GetComponent<ThinIceImage>();
+    }
+
+    public void RemoveKey()
+    {
+        HasKey = false;
+        Debug.Log(Key);
+        Debug.Log(Key.gameObject);
+        Destroy(Key.gameObject);
+        Key = null;
     }
 }

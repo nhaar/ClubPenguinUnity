@@ -193,6 +193,28 @@ Wall1,Ice3,Wall3,Ice5,Wall1,Empty4
 Wall5,Empty1,Wall7,Empty4
 "), new Vector2(1, 0), new Vector2(13, 7));
 
+    public static ThinIceGame.Level Level10 = new(
+        LevelDecode(@"
+Wall19
+Wall1,Ice17,Wall1
+Wall1,Ice3,ThickIce8,Ice4,ThickIce1,Ice1,Wall1
+Wall1,Ice15,ThickIce1,Ice1,Wall1
+Wall1,Ice6,Wall6,Ice3,ThickIce1,Ice1,Wall1
+Wall1,Ice6,Wall2,Ice1,Wall2,ThickIce2,Ice2,ThickIce1,Ice1,Wall1
+Wall1,Ice6,Wall2,Ice1,Wall2,ThickIce2,Ice4,Wall1
+Wall1,Ice17,Wall1
+Wall1,Ice17,Wall1
+Wall1,Ice6,Wall3,Ice4,Wall3,Ice1,Wall1
+Wall1,Ice9,ThickIce4,Lock1,Ice1,Wall1,Ice1,Wall1
+Wall1,Ice2,Wall2,Ice2,Wall3,Ice4,Wall1,Goal1,Wall1,Ice1,Wall1
+Wall1,Ice2,Wall2,ThickIce2,Ice2,Wall1,Ice4,Wall3,Ice1,Wall1
+Wall1,Ice17,Wall1
+Wall19
+"), Vector2.zero, new Vector2(9, 5), new List<Vector2Int>()
+        {
+            Vector2Int.one
+        });
+
     public static ThinIceGame.Level[] Levels = new ThinIceGame.Level[]
     {
             Level1,
@@ -203,6 +225,7 @@ Wall5,Empty1,Wall7,Empty4
             Level6,
             Level7,
             Level8,
-            Level9
+            Level9,
+            Level10
     };
 }
