@@ -102,11 +102,11 @@ public class ThinIcePuffle : MonoBehaviour
     }
 
     private bool CanMove(Vector2 targetPosition)
-    {
-        
-        Vector2 targetTilePosition = targetPosition - _os.GameData.CurrentLevel.Origin;
+    {        
+        Vector2 targetTilePosition = targetPosition;
         ThinIceGame.Level.TileType targetTile = _os.TileObjects[(int)targetTilePosition.x, (int)targetTilePosition.y].TileType;
-        
+
+        Debug.Log(targetTile);
         if (_impassableTiles.Contains(targetTile))
         {
             return false;
